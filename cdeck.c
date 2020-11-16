@@ -25,11 +25,9 @@ struct Card{
 
 struct Card *topCard=NULL; // head of Deck
 
-
-
 void shuffle(); // rearranges LL
 void freeDeck(); // frees deck
-void printDeck();
+void printDeck();//prints deck
 void createDeck(struct Card *first);
 
 int main (){
@@ -41,11 +39,11 @@ createDeck(topCard);
 printDeck();
 freeDeck();
 
-return 0;
+return 0; 
 
 }
 
-void createDeck(struct Card *top){
+void createDeck(struct Card *top){ // initializes and creates the deck (in order)
     //first should be of topCard (head)
     top=(struct Card*) malloc(sizeof(struct Card));
     strcpy(top->suit,spade);
@@ -103,7 +101,7 @@ while(curr!=NULL){
 
     struct Card *freeCard= curr;
     curr=curr->next;
-    free(freeCard);
+    free(freeCard); // frees Card 
 }
 
 
