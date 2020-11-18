@@ -24,6 +24,7 @@ struct Card{
 }a_card;
 
 struct Card *topCard=NULL; // head of Deck
+struct Card cardArray[52]; // add card array for random access 
 
 void shuffle(); // rearranges LL
 void freeDeck(); // frees deck
