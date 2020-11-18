@@ -45,6 +45,8 @@ return 0;
 
 void createDeck(struct Card *top){ // initializes and creates the deck (in order)
     //first should be of topCard (head)
+
+    // we will need to randomize this somehow instead of inserting in order
     top=(struct Card*) malloc(sizeof(struct Card));
     strcpy(top->suit,spade);
     top->value=Ace;
