@@ -1,12 +1,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string.h>
 #define MAX 10 // for names
-#define spade "spades"
-#define heart "hearts"
-#define club "clubs"
-#define diamond "diamonds"
+#define SPADES "spades"
+#define HEARTS "hearts"
+#define CLUBS "clubs"
+#define DIAMONDS "diamonds"
 #define Ace 1 //royalty card vals
 #define Jack 11
 #define Queen 12
@@ -18,125 +19,202 @@ struct Card{
     //char type[MAX];
     char suit[MAX];
     int value;
-    struct Card *next; //next pointer
+   // struct Card *next; //next pointer
 
 
 }a_card;
 
 struct Card *topCard=NULL; // head of Deck
-struct Card cardArray[52]; // add card array for random access 
-
+struct Card *cardArray[52]; // add card array for random access ... random pointers 
+double randTime=0; //since the time that is gathered is so the same for each rand, 
+//we also add this to the given time that we call srand on
 void shuffle(); // rearranges LL
-void freeDeck(); // frees deck
+void freeDeck(struct Card *card[52]); // frees deck
 void printDeck();//prints deck
-void createDeck(struct Card *first);
+void createDeck();
+
+// operational functions 
+int arrayIter(int num); 
 
 int main (){
 
 //printf("deck\n");
 
-createDeck(topCard);
-//printf("The topCard is %d of %s.\n", topCard->value, topCard->suit);
+createDeck();
+
+shuffle();
+shuffle();
+//shuffle();
+//shuffle();
 printDeck();
-freeDeck();
+//printf("The topCard is %d of %s.\n", topCard->value, topCard->suit);
+
+freeDeck(cardArray);
+
 
 return 0; 
 
 }
 
-void createDeck(struct Card *top){ // initializes and creates the deck (in order)
+void createDeck(){ // initializes and creates the deck (in order)
     //first should be of topCard (head)
 
-    // we will need to randomize this somehow instead of inserting in order
-    top=(struct Card*) malloc(sizeof(struct Card));
-    strcpy(top->suit,spade);
-    top->value=Ace;
-    //topCard->next= NULL;
-    topCard=top;
+    int deckCounter=0;
+    for(int i=0;i<13;i++){ // SPADES
+        cardArray[deckCounter]= (struct Card*) malloc(sizeof(struct Card));
+        strcpy(cardArray[deckCounter]->suit, SPADES);
+        cardArray[deckCounter]->value=i+1;
+       // cardArray[deckCounter]->next=NULL;
 
-    struct Card *current=topCard;// current
-    for(int i=2;i<=King;i++){ // spades
-    current->next=(struct Card*) malloc(sizeof(struct Card));
-     strcpy(current->next->suit,spade);
-     current->next->value=i;
-     current=current->next;
+       // printf("%d of %s \n", cardArray[deckCounter]->value, cardArray[deckCounter]->suit);
 
-
-    }
-    //printf("Here\n");
-
-    for(int i=1;i<=King;i++){ //hearts 
-    current->next=(struct Card*) malloc(sizeof(struct Card));
-     strcpy(current->next->suit,heart);
-     current->next->value=i;
-     current=current->next;
+        deckCounter++;
     }
 
-    for(int i=1;i<=King;i++){ //clubs 
-    current->next=(struct Card*) malloc(sizeof(struct Card));
-     strcpy(current->next->suit,club);
-     current->next->value=i;
-     current=current->next;
+    //printf("------\n");
+
+
+    for(int i=0;i<13;i++){ // DIAMONDS
+        cardArray[deckCounter]= (struct Card*) malloc(sizeof(struct Card));
+        strcpy(cardArray[deckCounter]->suit, DIAMONDS);
+        cardArray[deckCounter]->value=i+1;
+       // cardArray[deckCounter]->next=NULL;
+
+        //printf("%d of %s \n", cardArray[deckCounter]->value, cardArray[deckCounter]->suit);
+
+        deckCounter++;
     }
 
-    for(int i=1;i<=King;i++){ //diamonds
-    current->next=(struct Card*) malloc(sizeof(struct Card));
-     strcpy(current->next->suit,diamond);
-     current->next->value=i;
-     current=current->next;
+    // printf("------\n");
+
+
+    for(int i=0;i<13;i++){ // CLUBS
+        cardArray[deckCounter]= (struct Card*) malloc(sizeof(struct Card));
+        strcpy(cardArray[deckCounter]->suit, CLUBS);
+        cardArray[deckCounter]->value=i+1;
+       // cardArray[deckCounter]->next=NULL;
+
+    // printf("%d of %s \n", cardArray[deckCounter]->value, cardArray[deckCounter]->suit);
+
+        deckCounter++;
     }
 
-    current->next=NULL;
+    //printf("------\n");
 
-     
+    for(int i=0;i<13;i++){ // HEARTS
+        cardArray[deckCounter]= (struct Card*) malloc(sizeof(struct Card));
+        strcpy(cardArray[deckCounter]->suit, HEARTS);
+        cardArray[deckCounter]->value=i+1;
+       // cardArray[deckCounter]->next=NULL;
 
+        //printf("%d of %s \n", cardArray[deckCounter]->value, cardArray[deckCounter]->suit);
+
+        deckCounter++;
+    }
+
+     //printf("------\n");
 
 }
 void shuffle(){ // randomly rearranges the cards 
 
+
+    int numberBoard[52];
+
+    for(int i=0;i<52;i++){
+        numberBoard[i]=i;
+    }
+
+struct Card *newArray[52];
+int newArrInd=0;
+
+randTime+=4.67;
+
+    time_t t;
+
+    srand((unsigned) time(&t)+randTime); // should only be used once 
+
+    for(int i=0;i<52;i++){
+         int randInd= (rand()%52); // returns random num from 0 to 52
+
+         struct Card *location= cardArray[randInd];
+
+        while(location==NULL){ // while the random location that we end up at is null
+
+          randInd= arrayIter(randInd); // increments random index by one
+          location= cardArray[randInd];
+          //printf(" repeated num %d \n ", randInd);
+        }
+
+        newArray[newArrInd]=cardArray[randInd];
+        newArrInd++;
+        cardArray[randInd]=NULL; // sets the the random object to NULL
+
+
+
+        //printf("%d \n", randInd);
+
+
+    
 }
 
-void freeDeck(){ // feees the structs 
+  memcpy(&cardArray, &newArray, (sizeof(newArray)));// assign cardArray to the new array
+  //https://stackoverflow.com/questions/1693853/copying-arrays-of-structs-in-c
+//printf("------\n");
 
-struct Card *curr=topCard;// current
 
-while(curr!=NULL){
 
-    struct Card *freeCard= curr;
-    curr=curr->next;
-    free(freeCard); // frees Card 
+
 }
 
+int arrayIter(int index){
+
+    if(index <52){
+        index+=1;
+        return index;
+    }
+    else{
+        return 0;
+    }
+      
+}
+
+
+void freeDeck(struct Card *card[52]){ // feees the structs 
+
+
+for(int i=0;i<52;i++){
+    free(card[i]);
+}
 
 }
 
 void printDeck(){ //prints the LL 
 
-struct Card *curr=topCard;// current
+for(int i=0;i<52;i++){
 
-while(curr!=NULL){
-    int cardVal=curr->value;
-    
-    
-        if(cardVal==Ace){
-  printf(" Ace of %s.\n", curr->suit); //Ace
-        }
-        else if(cardVal==Jack){
-            printf(" Jack of %s.\n", curr->suit); //Jack
-        }
-        else if(cardVal==Queen){
-            printf(" Queen of %s.\n", curr->suit);//Queen
-        }
-        else if(cardVal==King){
-        printf(" King of %s.\n", curr->suit);// King 
-        printf("-----------\n");
-        }
-        else{
-            printf(" %d of %s.\n", curr->value, curr->suit); //Default
-        }
-        
-    curr=curr->next; //next
+    struct Card *currentCard= cardArray[i];
+
+    int val= currentCard->value;
+
+    switch(val){
+        case 1: // ace 
+            printf("ace of %s \n",currentCard->suit);
+            break; // break is necessary here so that we dont print a case and the default 
+        case 11: // jack
+            printf("jack of %s \n", currentCard->suit);
+            break;
+        case 12: //queen
+            printf("queen of %s \n", currentCard->suit);
+            break;
+        case 13: //king
+            printf("king of %s \n", currentCard->suit);
+            break;
+        default: // any other num
+             printf("%d of %s \n", currentCard->value,currentCard->suit);
+    }
+
 }
 
+printf("------\n");
     
 }
