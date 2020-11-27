@@ -24,11 +24,11 @@ struct Card{
 
 }a_card;
 
-struct Card *topCard=NULL; // head of Deck
+//struct Card *topCard=NULL; // head of Deck
 struct Card *cardArray[52]; // add card array for random access ... random pointers 
 double randTime=0; //since the time that is gathered is so the same for each rand, 
 //we also add this to the given time that we call srand on
-void shuffle(); // rearranges LL
+void shuffle(); // rearranges the array of cards in a different order 
 void freeDeck(struct Card *card[52]); // frees deck
 void printDeck();//prints deck
 void createDeck();
@@ -118,11 +118,11 @@ void createDeck(){ // initializes and creates the deck (in order)
 void shuffle(){ // randomly rearranges the cards 
 
 
-    int numberBoard[52];
+    // int numberBoard[52];
 
-    for(int i=0;i<52;i++){
-        numberBoard[i]=i;
-    }
+    // for(int i=0;i<52;i++){
+    //     numberBoard[i]=i;
+    // }
 
 struct Card *newArray[52];
 int newArrInd=0;
