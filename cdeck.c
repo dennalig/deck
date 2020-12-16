@@ -179,7 +179,7 @@ int arrayIter(int index){
 }
 
 
-void freeDeck(struct Card *card[52]){ // feees the structs 
+void freeDeck(struct Card *card[52]){ // frees the structs 
 
 
 for(int i=0;i<52;i++){
