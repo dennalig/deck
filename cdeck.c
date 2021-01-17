@@ -42,10 +42,8 @@ int main (){
 
 createDeck();
 
-shuffle();
-shuffle();
-//shuffle();
-//shuffle();
+// shuffle();
+// shuffle();
 printDeck();
 //printf("The topCard is %d of %s.\n", topCard->value, topCard->suit);
 
@@ -59,62 +57,36 @@ return 0;
 void createDeck(){ // initializes and creates the deck (in order)
     //first should be of topCard (head)
 
-    int deckCounter=0;
-    for(int i=0;i<13;i++){ // SPADES
-        cardArray[deckCounter]= (struct Card*) malloc(sizeof(struct Card));
-        strcpy(cardArray[deckCounter]->suit, SPADES);
-        cardArray[deckCounter]->value=i+1;
-       // cardArray[deckCounter]->next=NULL;
+    char suitArray[4][9]; // array of each suit
+    strcpy(suitArray[0], SPADES);
+    strcpy(suitArray[1],DIAMONDS);
+    strcpy(suitArray[2],CLUBS);
+    strcpy(suitArray[3],HEARTS);
+    // printf("%s\n",suitArray[0]);
+
+    int suitPosition=0; // position in the suit string array, allowing us to not repeat code
+    int cardValueInd=0; // numbers 1-13, resets after each batch of 13
+
+    for(int i=0;i<52;i++){ // for loop of 52
+
+        cardArray[i]=(struct Card*) malloc(sizeof(struct Card)); // malloc memory of that card 
+        strcpy(cardArray[i]->suit, suitArray[suitPosition]); // assign suit
+        cardArray[i]->value=cardValueInd+1; // assign numeric value 
 
        // printf("%d of %s \n", cardArray[deckCounter]->value, cardArray[deckCounter]->suit);
 
-        deckCounter++;
+        cardValueInd++; //increment of a card 
+
+        if((i+1)%13==0){ //counting the card that is marked ... could also use cardValueInd here 
+            suitPosition++;
+            cardValueInd=0; // reset to 0
+        }
     }
 
-    //printf("------\n");
+
+} // end createDeck()
 
 
-    for(int i=0;i<13;i++){ // DIAMONDS
-        cardArray[deckCounter]= (struct Card*) malloc(sizeof(struct Card));
-        strcpy(cardArray[deckCounter]->suit, DIAMONDS);
-        cardArray[deckCounter]->value=i+1;
-       // cardArray[deckCounter]->next=NULL;
-
-        //printf("%d of %s \n", cardArray[deckCounter]->value, cardArray[deckCounter]->suit);
-
-        deckCounter++;
-    }
-
-    // printf("------\n");
-
-
-    for(int i=0;i<13;i++){ // CLUBS
-        cardArray[deckCounter]= (struct Card*) malloc(sizeof(struct Card));
-        strcpy(cardArray[deckCounter]->suit, CLUBS);
-        cardArray[deckCounter]->value=i+1;
-       // cardArray[deckCounter]->next=NULL;
-
-    // printf("%d of %s \n", cardArray[deckCounter]->value, cardArray[deckCounter]->suit);
-
-        deckCounter++;
-    }
-
-    //printf("------\n");
-
-    for(int i=0;i<13;i++){ // HEARTS
-        cardArray[deckCounter]= (struct Card*) malloc(sizeof(struct Card));
-        strcpy(cardArray[deckCounter]->suit, HEARTS);
-        cardArray[deckCounter]->value=i+1;
-       // cardArray[deckCounter]->next=NULL;
-
-        //printf("%d of %s \n", cardArray[deckCounter]->value, cardArray[deckCounter]->suit);
-
-        deckCounter++;
-    }
-
-     //printf("------\n");
-
-}
 void shuffle(){ // randomly rearranges the cards 
 
 
@@ -124,7 +96,7 @@ void shuffle(){ // randomly rearranges the cards
     //     numberBoard[i]=i;
     // }
 
-struct Card *newArray[52];
+struct Card *newArray[52]; // new array of Card pointers 
 int newArrInd=0;
 
 randTime+=4.67;
@@ -166,7 +138,8 @@ randTime+=4.67;
 
 }
 
-int arrayIter(int index){
+
+int arrayIter(int index){ // array iteration function
 
     if(index <52){
         index+=1;
